@@ -1,0 +1,47 @@
+.header {
+  padding: 18px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.header__title {
+  font-weight: 500;
+  font-size: 26px;
+  margin: 0;
+}
+
+.header__span {
+  font-weight: 400;
+}
+
+.header__button {
+  margin-top: 2px;
+  background-color: #5CCC81;
+  color: #fff;
+  padding: 9px 24px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 10px;
+  letter-spacing: 0.077em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.header__icon {
+  background-image: url('../../assets/icons/plus.svg');
+  background-size: 50%;
+  background-position: center;
+  background-color: #47B26B;
+  height: 26px;
+  width: 26px;
+  display: block;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
