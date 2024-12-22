@@ -19,4 +19,22 @@ button {
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
   cursor: pointer;
+  background-color: transparent;
+}
+
+.btnClose {
+  background-color: transparent;
+  background-image: url('../assets/icons/close.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: 30px;
+  top: 36px;
+}
+
+.btnClose:hover {
+  filter: invert(24%) sepia(9%) saturate(536%) hue-rotate(173deg) brightness(98%) contrast(86%);
 }

@@ -24,6 +24,127 @@
   padding: 30px;
   animation: form-appear .4s ease-out;
   -webkit-animation: form-appear .4s ease-out;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal__title {
+  font-weight: 600;
+  font-size: 25px;
+  letter-spacing: 0.025em;
+  margin: 0 0 31px 0;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  label {
+    font-size: 20px;
+  }
+}
+
+.form__input {
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+  width: 90.4%;
+  border: none;
+  padding: 16px 41px 13px;
+  background-image: url('../../assets/icons/search.svg');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-position: 13px 13px;
+  background-repeat: no-repeat;
+  letter-spacing: 0.1em;
+  background: #F2F4F7;
+}
+
+.form__label {
+  font-size: 14px;
+}
+
+.form__wrapper {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formGroup {
+  background: #F2F4F7;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formGroup__date {
+  width: 27%;
+  background-image: url('../../assets/icons/date.svg');
+  background-repeat: no-repeat;
+  background-position: 13px 14px;
+  padding: 13px 10px 11px 39px;
+}
+
+.form__gender {
+  gap: 5px;
+}
+
+.seelctIcon {
+  background-image: url('../../assets/icons/arrow.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.genderBtn {
+  width: 140px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  height: 40px;
+  letter-spacing: 0.1em;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.genderBtn_active {
+  background-color: #4DA2D6;
+}
+
+.form__icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.form__icon:first-child {
+  background-image: url('../../assets/icons/man.svg');
+}
+
+.form__icon:last-child {
+  background-image: url('../../assets/icons/woman.svg');
 }
 
 @keyframes modal-appear {
@@ -50,7 +171,7 @@
 
 @media screen and (min-width: 451px) {
   .modal__form {
-    width: 49%;
+    width: 46%;
   }
 }
 
