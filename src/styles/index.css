@@ -38,3 +38,41 @@ button {
 .btnClose:hover {
   filter: invert(24%) sepia(9%) saturate(536%) hue-rotate(173deg) brightness(98%) contrast(86%);
 }
+
+.alert-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+  -webkit-transform: translateX(-10px);
+  -moz-transform: translateX(-10px);
+  -ms-transform: translateX(-10px);
+  -o-transform: translateX(-10px);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 400ms ease-in, transform 400ms ease-in;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 400ms ease-in, transform 400ms ease-in;
+  -webkit-transform: translateX(-10px);
+  -moz-transform: translateX(-10px);
+  -ms-transform: translateX(-10px);
+  -o-transform: translateX(-10px);
+}

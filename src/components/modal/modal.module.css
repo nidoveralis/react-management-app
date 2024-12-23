@@ -12,8 +12,14 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  animation: modal-appear .4s ease-out;
-  -webkit-animation: modal-appear .4s ease-out;
+}
+
+.modal__wrapper {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .modal__form {
@@ -21,13 +27,9 @@
   height: 100%;
   position: fixed;
   z-index: 1;
-  padding: 30px;
-  animation: form-appear .4s ease-out;
-  -webkit-animation: form-appear .4s ease-out;
   right: 0;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .modal__title {
@@ -43,10 +45,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+}
 
-  label {
-    font-size: 20px;
-  }
+.form__text {
+  font-size: 20px;
 }
 
 .form__input {
@@ -69,6 +71,7 @@
 
 .form__label {
   font-size: 14px;
+  text-wrap: nowrap;
 }
 
 .form__wrapper {
@@ -76,7 +79,7 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
 }
 
 .formGroup {
@@ -91,19 +94,57 @@
   justify-content: space-between;
 }
 
+.formGroup__select {
+  padding: 13px 11px 11px 13px;
+  position: relative;
+}
+
 .formGroup__date {
-  width: 27%;
   background-image: url('../../assets/icons/date.svg');
   background-repeat: no-repeat;
   background-position: 13px 14px;
-  padding: 13px 10px 11px 39px;
+  padding-left: 40px;
+  width: 27%;
+}
+
+.form__list {
+  margin: 0;
+  position: absolute;
+  background: #F2F4F7;
+  padding: 11px 0;
+  list-style-type: none;
+  width: 100%;
+  left: 0;
+  top: 50px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+
+  li {
+    padding: 5px 13px;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+  }
+
+  li:hover {
+    background-color: #fff;
+  }
+}
+
+.formGroup__role {
+  width: 30%;
 }
 
 .form__gender {
   gap: 5px;
 }
 
-.seelctIcon {
+.selctIcon {
   background-image: url('../../assets/icons/arrow.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -111,13 +152,23 @@
   height: 20px;
   margin-left: auto;
   cursor: pointer;
+  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+}
+
+.selctIcon_active {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
 
 .genderBtn {
   width: 140px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 18px;
   height: 40px;
   letter-spacing: 0.1em;
   padding: 0;
@@ -127,56 +178,74 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-}
-
-.genderBtn_active {
-  background-color: #4DA2D6;
+  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
 }
 
 .form__icon {
   display: inline-block;
   width: 16px;
   height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
 }
 
-.form__icon:first-child {
+.form__icon_male {
   background-image: url('../../assets/icons/man.svg');
 }
 
-.form__icon:last-child {
+.form__icon_female {
   background-image: url('../../assets/icons/woman.svg');
 }
 
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-  }
+.modal__btns {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
 
-  to {
-    opacity: 1;
+.modal__button {
+  width: 260px;
+  height: 44px;
+  background-color: #F2F4F7;
+}
+
+.modal__button_active {
+  background-color: #4DA2D6;
+  color: #fff;
+
+  span {
+    filter: brightness(0) invert(1);
   }
 }
 
-@keyframes form-appear {
-  from {
-    opacity: 0;
-    right: -100%;
-  }
-
-  to {
-    opacity: 1;
-    right: 0;
-  }
+.modal__button_active:hover {
+  background-color: #4087B2;
 }
 
 @media screen and (min-width: 451px) {
   .modal__form {
-    width: 46%;
+    width: 49%;
+  }
+}
+
+@media screen and (max-width: 1450px) {
+  .form__wrapper {
+    flex-wrap: wrap;
   }
 }
 
 @media screen and (max-width: 450px) {
   .modal__form {
     width: 100%;
+  }
+  
+  .form__wrapper {
+    flex-direction: column;
   }
 }
