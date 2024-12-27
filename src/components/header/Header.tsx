@@ -1,15 +1,13 @@
-import React, { useEffect, useState, FC } from 'react';
-
-import { getUsers } from '../../api/user';
+import  { FC } from 'react';
 
 import styles from './header.module.css';
 
 interface IHeaderoptions {
   setIsOpenModal: (data: boolean) => void;
+  isCountUser: number;
 }
 
-const Header: FC<IHeaderoptions> = ({ setIsOpenModal }) => {
-  const [isCountUser, setIsCountUser] = useState<number>(0);
+const Header: FC<IHeaderoptions> = ({ setIsOpenModal, isCountUser }) => {
 
   const getUserWordForm = (count: number) => {
     if (count === 1) {
@@ -20,12 +18,6 @@ const Header: FC<IHeaderoptions> = ({ setIsOpenModal }) => {
       return 'человек';
     }
   };
-
-  useEffect(() => {
-    getUsers().then((res: any) => {
-      setIsCountUser(res.total);
-    });
-  }, []);
 
   return (
     <div className={styles.header}>

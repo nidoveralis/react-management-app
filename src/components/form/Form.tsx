@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
+import styles from "./form.module.css";
 
-function Form() {
+interface IOptions {
+  handleChangeInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Form: FC<IOptions> = ({ handleChangeInput }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.form}>
+      <span className={styles.form__text}>Найти в списке</span>
+      <input
+        className={styles.form__input}
+        type="text"
+        onChange={handleChangeInput}
+        placeholder="Пользователь" />
     </div>
   );
 }

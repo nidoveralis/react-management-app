@@ -1,0 +1,73 @@
+.table {
+  border-collapse: collapse;
+  width: calc(100% - 56px);
+  margin: 30px;
+
+  td {
+    border-bottom: 1px solid #DAE3F1;
+    padding: 13px 18px;
+  }
+}
+
+.table__header {
+  background-color: #fff;
+  border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+
+    th {
+    padding: 14px 6px;
+  }
+}
+
+.table__container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.table__gender {
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.table__gender_female {
+  background-image: url('../../assets/icons/woman.svg');
+}
+
+.table__btn {
+  border: none;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #fff;
+}
+
+.table__btn_edit {
+  background-image: url('../../assets/icons/edit.svg');
+}
+
+.table__btn_remove {
+  background-image: url('../../assets/icons/delete.svg');
+}
