@@ -35,3 +35,12 @@ export const addUsers = async (data: {
     console.log(err);
   }
 };
+
+export const deleteUsers = async (id: number) => {
+  try {
+    const response = axios.delete(`${BASE_URL}/users${id}`);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};

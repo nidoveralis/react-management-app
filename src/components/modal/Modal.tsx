@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
+import clsx from 'clsx';
+
+import { addUsers } from '../../api/user';
+
+import Form from '../form/Form';
 
 import styles from './modal.module.css';
-import clsx from 'clsx';
-import { addUsers } from '../../api/user';
-import Form from '../form/Form';
 
 interface IOptions {
   setIsOpenModal: (data: boolean) => void;
@@ -25,7 +27,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, isOpen }) => {
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.trim();
-    
+
     if (inputValue !== '') {
       setIsUserData(e.target.value);
     } else {
@@ -54,7 +56,11 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, isOpen }) => {
         <div className={styles.modal__wrapper}>
           <h2 className={styles.modal__title}>Добавить нового пользователя</h2>
           <button className='btnClose' onClick={() => setIsOpenModal(false)} />
-          <Form handleChangeInput={handleChangeInput} />
+          <Form
+            handleChangeInput={handleChangeInput}
+            title={'Найти в списке'}
+            label={'Пользователь'}
+          />
           <div className={styles.form__wrapper}>
             <div className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__date)}>
               <label className={styles.form__label}>Дата рождения</label>

@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
+.mainForm {
+  background-color: #fff;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  padding: 10px 10px;
+  margin: 2px 30px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainForm__footer {
+  margin: 23px 10px 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: calc(100% - 109px);
+  justify-content: space-between;
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #42474D;
+    display: inline-block;
+    width: 140px;
+  }
+
+  span:first-child{
+    width: 59.4%;
+  }
+
+  span:nth-child(2) {
+    width: 200px;
+  }
 }
 
-.App-link {
-  color: #61dafb;
+.mainForm__footer:first-child{
+  display: inline-block;
+  width: 57.7%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mainForm__btnSorted {
+  color: #828D99;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  background-image: url('./assets/icons/sort.svg');
+  background-position: right;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  width: 138px;
+  text-align: start;
+  margin-left: 7px;
+  padding: 0;
 }

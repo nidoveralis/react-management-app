@@ -1,5 +1,4 @@
 .form {
-  width: calc(100% - 10px);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -25,7 +24,7 @@
   background-position: 13px 13px;
   background-repeat: no-repeat;
   letter-spacing: 0.1em;
-  background: #F2F4F7;
+  background-color: #F2F4F7;
 }
 
 .form__label {
