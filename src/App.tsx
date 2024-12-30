@@ -5,7 +5,7 @@ import TableCustomer from './components/table/Table';
 import Header from './components/header/Header';
 import Modal from './components/modal/Modal';
 
-import { deleteUsers, getUsers } from './api/user';
+import { deleteUsers, getUsers, addUsers, editUsers } from './api/user';
 
 import './App.css';
 import Form from './components/form/Form';
@@ -24,21 +24,63 @@ function App() {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [isCountUser, setIsCountUser] = useState<number>(0);
   const [isUserList, setIsUserList] = useState<IUserOptions[]>([]);
+  const [isUser, setIsUser] = useState<IUserOptions | null>(null);
   const [isIdUser, setIsIdUser] = useState<number | null>(null);
+  const [isUserData, setIsUserData] = useState<string>('');
+  const [isUserRole, setIsUserRole] = useState<{ value: string, label: string } | null>(null);
+  const [purpose, setPurpose] = useState<string>('');
 
-  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
+  const cleanData = () => {
+    setIsUserData('');
+    setIsOpenModal(false);
+    setIsIdUser(null);
+    setIsUserRole(null);
   };
 
   const handleClickRemove = (id: number) => {
     setIsIdUser(id);
     setIsOpenPopup(true);
+    setPurpose('remove');
   }
 
   const handleClickDelete = (data: boolean) => {
-    console.log(data);
     if (data && isIdUser) {
-      deleteUsers(isIdUser);
+      deleteUsers(isIdUser).then((res) => {
+        setIsIdUser(null);
+      });
+    }
+  };
+
+  const handleClickEdit = (user: IUserOptions) => {
+    setIsOpenModal(true);
+    setIsUser(user);
+  };
+
+  const handleClickAdd = () => {
+    if (isUserData !== '') {
+      addUsers({
+        first_name: isUserData,
+        role: isUserRole?.value || '',
+        gender: 'male'
+      }).then(() => {
+        cleanData();
+      });
+    }
+  };
+
+  const handleClickEditUser = () => {
+    if (isIdUser) {
+      editUsers({
+        first_name: isUserData,
+        role: isUserRole?.value || '',
+        gender: 'male',
+        id: isIdUser
+      }).then((res: any) => {
+        console.log(res);
+        cleanData();
+        setIsOpenPopup(true);
+        // setPurpose(`${res.status.toString()}`);
+      });
     }
   };
 
@@ -54,7 +96,8 @@ function App() {
       <Header setIsOpenModal={setIsOpenModal} isCountUser={isCountUser} />
       <div className='mainForm'>
         <Form
-          handleChangeInput={handleChangeInput}
+          setIsOpenModal={setIsOpenModal}
+          setIsUserList={setIsUserList}
           label='Поиск...'
         />
         <div className='mainForm__footer'>
@@ -65,14 +108,26 @@ function App() {
           <span>Роль</span>
         </div>
       </div>
-      <TableCustomer isUserList={isUserList} handleClickRemove={handleClickRemove} />
+      <TableCustomer
+        isUserList={isUserList}
+        handleClickRemove={handleClickRemove}
+        handleClickEdit={handleClickEdit}
+      />
       <CSSTransition
         in={isOpenModal}
         timeout={400}
         classNames='alert'
         unmountOnExit
       >
-        <Modal setIsOpenModal={setIsOpenModal} isOpen={isOpenModal} />
+        <Modal
+          setIsOpenModal={setIsOpenModal}
+          handleClickSubmit={isUser ? handleClickEditUser : handleClickAdd}
+          setIsUserData={setIsUserData}
+          setIsUserRole={setIsUserRole}
+          isOpen={isOpenModal}
+          role={isUserRole}
+          data={isUser}
+        />
       </CSSTransition>
       <CSSTransition
         in={isOpenPopup}
@@ -86,7 +141,7 @@ function App() {
           isOpen={isOpenPopup}
           title={'Казимир Антонина Рикудович'}
           subtitle={'Вы хотите удалить пользователя:'}
-          purpose={'remove'}
+          purpose={purpose}
         />
       </CSSTransition>
     </div>

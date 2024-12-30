@@ -59,7 +59,6 @@
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
   border: none;
-  padding: 16px 41px 13px;
   background-image: url('../../assets/icons/search.svg');
   background-position: left;
   background-repeat: no-repeat;
@@ -67,11 +66,23 @@
   background-repeat: no-repeat;
   letter-spacing: 0.1em;
   background: #F2F4F7;
+  font-size: 14px;
+  width: 100%;
+  color: #828D99;
+}
+
+.form__input:active,
+.form__input:focus  {
+  outline: none;
 }
 
 .form__label {
-  font-size: 14px;
+  font-size: 8px;
+  font-weight: 500;
   text-wrap: nowrap;
+  position: absolute;
+  top: 5px;
+  left: 15px;
 }
 
 .form__wrapper {

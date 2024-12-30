@@ -10,10 +10,12 @@ interface IOptions {
   id: number;
   last_name: string;
 }
+
 const TableCustomer: FC<{
   isUserList: IOptions[],
   handleClickRemove: (data: number) => void
-}> = ({ isUserList, handleClickRemove }) => {
+  handleClickEdit: (data: IOptions) => void
+}> = ({ isUserList, handleClickRemove, handleClickEdit }) => {
   return (
     <section className={styles.table__wrapper}>
       <table className={styles.table}>
@@ -31,7 +33,7 @@ const TableCustomer: FC<{
                     src={user.avatar}
                     className={styles.table__avatar}
                   />
-                  <span>{`${user.first_name} ${user.last_name}`}</span>
+                  <span>{`${user.last_name} ${user.first_name.slice(0, 1)}.`}</span>
                 </div>
               </td>
               <td>{user.email}</td>
@@ -45,7 +47,7 @@ const TableCustomer: FC<{
               <td>Медсестра</td>
               <td>
                 <div className={styles.table__container}>
-                  <button className={clsx(styles.table__btn, styles.table__btn_edit)} />
+                  <button className={clsx(styles.table__btn, styles.table__btn_edit)} onClick={() => handleClickEdit(user)} />
                   <button className={clsx(styles.table__btn, styles.table__btn_remove)} onClick={() => handleClickRemove(user.id)} />
                 </div>
               </td>
