@@ -77,3 +77,12 @@
   padding-left: 36px;
   background-size: 16px 16px;
 }
+
+.form__label {
+  font-size: 8px;
+  font-weight: 500;
+  text-wrap: nowrap;
+  position: absolute;
+  left: 40px;
+  color: #828D99;
+}

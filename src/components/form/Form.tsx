@@ -22,8 +22,9 @@ interface IUserOptions {
 const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenModal, setIsUserList }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [isVisibleButton, setIsVisibleButton] = useState<boolean>(false);
+  const [isVisibleLabel, setIsVisibleLabel] = useState<boolean>(value ? true : false);
   const [isUseVisiblerList, setIsVisibleUserList] = useState<IUserOptions[]>([]);
-console.log(label);
+
   const allUsersList = JSON.parse(localStorage.getItem('users') || '[]');
 
   const claerData = () => {
@@ -31,18 +32,35 @@ console.log(label);
     setIsVisibleUserList([]);
   };
 
+  const searchUsers = (value: string) => {
+    setIsVisibleUserList(allUsersList);
+    const findUsers = allUsersList.length > 0 ? allUsersList.filter((item: IUserOptions) => item.last_name.toLowerCase().includes(value)) : [];
+    setIsVisibleUserList(findUsers);
+    setIsVisibleButton(findUsers.length === 0);
+  }
+
+  const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const value = (e.target as HTMLInputElement).value;
+    searchUsers(value);
+};
+
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     if (value !== '') {
-      const findUsers = allUsersList.length > 0 ? allUsersList.filter((item: IUserOptions) => item.last_name.toLowerCase().includes(value)) : [];
-      setIsVisibleUserList(findUsers);
-      setIsVisibleButton(findUsers.length === 0);
+      setIsVisibleLabel(true);
+      searchUsers(value);
       if (handleChangeInput) {
         handleChangeInput(e);
       }
     } else {
+      setIsVisibleLabel(false);
       claerData();
     }
+  };
+
+  const handleClickAddUser = () => {
+    setIsOpenModal(true);
+    setIsVisibleButton(false);
   };
 
   useEffect(() => {
@@ -65,13 +83,19 @@ console.log(label);
   return (
     <div className={styles.form} style={{ width: `${title ? '100%' : 'auto'}` }} >
       {title && <span className={styles.form__text}>{title}</span>}
+      {isVisibleLabel &&
+        <label
+          className={styles.form__label}
+          style={{ top: `${title ? 40 : 5}px` }}
+        >{label}</label>
+      }
       <input
         className={styles.form__input}
         type="text"
         onChange={(e) => { handleSearchInput(e) }}
         placeholder={label}
         defaultValue={value || ''}
-        onClick={() => { setIsVisibleUserList(allUsersList) }}
+        onClick={handleInputClick}
       // onBlur={() => claerData()}
       />
       <div ref={modalRef}>
@@ -88,7 +112,7 @@ console.log(label);
           {(isVisibleButton && (!title || (title && value))) &&
             <>
               <li className={styles.form__item}>Пользователя с такими параметрами не найден, проверьте правильность написнаия или создайте нового!</li>
-              <li className={clsx(styles.form__item, styles.form__item_add)} onClick={() => setIsOpenModal(true)}>Добавить пользователя</li>
+              <li className={clsx(styles.form__item, styles.form__item_add)} onClick={handleClickAddUser}>Добавить пользователя</li>
             </>
           }
         </ul>

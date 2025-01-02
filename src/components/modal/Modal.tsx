@@ -23,7 +23,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
     ? role.value === 'nurse' && isGender ? isGender === 'female' ? 'Медсестра' : 'Медбрат' : role.label
     : null;
 
-  const options = [
+    const options = [
     { value: 'doctor', label: 'Доктор' },
     ...(isGender === 'female' || !isGender ? [{ value: 'nurse', label: 'Медсестра' }] : []),
     ...(isGender === 'male' || !isGender ? [{ value: 'nurse', label: 'Медбрат' }] : []),
@@ -70,7 +70,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
           />
           <div className={styles.form__wrapper}>
             <div className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__date)}>
-              <label className={styles.form__label}>Дата рождения</label>
+              <label className={styles.form__label} style={{left: '40px'}}>Дата рождения</label>
               <span className={styles.selctIcon}></span>
             </div>
             <div className={clsx(styles.formGroup, styles.form__gender)}>
@@ -92,7 +92,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
               className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__role)}
               onClick={() => setIsOpenSelect(!isOpenSelect)}
             >
-              {isGender && <span className={styles.form__label}>Роль</span>}
+              {roleLabel && <span className={styles.form__label}>Роль</span>}
               <input type='text' value={roleLabel || 'Роль'} className={styles.form__input} />
               <span className={clsx(styles.selctIcon, isOpenSelect ? styles.selctIcon_active : '')}></span>
               {isOpenSelect && <ul className={styles.form__list}>

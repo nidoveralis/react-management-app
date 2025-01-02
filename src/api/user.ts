@@ -55,13 +55,12 @@ export const editUsers = async (data: {
   id: number
 }
 ) => {
-  console.log(data);
   try {
     const response = axios.post(`${BASE_URL}/users${data.id}`, data, {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    });console.log(response);
     return response;
   } catch (err) {
     console.log(err);

@@ -69,6 +69,7 @@
   font-size: 14px;
   width: 100%;
   color: #828D99;
+  cursor: pointer;
 }
 
 .form__input:active,
@@ -83,6 +84,7 @@
   position: absolute;
   top: 5px;
   left: 15px;
+  color: #828D99;
 }
 
 .form__wrapper {
@@ -140,6 +142,7 @@
     -moz-transition: all .3s ease-in-out;
     -ms-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
+    cursor: pointer;
   }
 
   li:hover {

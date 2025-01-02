@@ -29,7 +29,7 @@ function App() {
   const [isUserData, setIsUserData] = useState<string>('');
   const [isUserRole, setIsUserRole] = useState<{ value: string, label: string } | null>(null);
   const [purpose, setPurpose] = useState<string>('');
-
+console.log(isUser, isIdUser);
   const cleanData = () => {
     setIsUserData('');
     setIsOpenModal(false);
@@ -68,14 +68,14 @@ function App() {
     }
   };
 
-  const handleClickEditUser = () => {
-    if (isIdUser) {
+  const handleClickEditUser = () => {console.log(22);
+    if (isIdUser) {console.log(1111);
       editUsers({
         first_name: isUserData,
         role: isUserRole?.value || '',
         gender: 'male',
         id: isIdUser
-      }).then((res: any) => {
+      }).then((res: any) => {console.log(333);
         console.log(res);
         cleanData();
         setIsOpenPopup(true);
@@ -83,6 +83,13 @@ function App() {
       });
     }
   };
+
+  useEffect(() => {
+    if(!isOpenModal) {
+      setIsUser(null);
+      setIsUserRole(null);
+    }
+  }, [isOpenModal]);
 
   useEffect(() => {
     getUsers().then((res: any) => {

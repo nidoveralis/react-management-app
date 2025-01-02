@@ -13,7 +13,7 @@ interface IOptions {
 };
 
 const Popup: FC<IOptions> = ({ setIsOpenPopup, isOpen, title, purpose, subtitle, handleClickBtn }) => {
-
+console.log(isOpen);
   return (
     <div className={clsx(styles.wrapper, styles[purpose])}>
       <div className={styles.background} onClick={() => setIsOpenPopup(false)} >
