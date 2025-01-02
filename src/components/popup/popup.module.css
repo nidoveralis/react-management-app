@@ -126,3 +126,12 @@
   background-color: #FFE9E5;
   color: #E5432E;
 }
+
+.popup__button_close {
+  background-color: #F2F4F7;
+  color: #42474D;
+}
+
+.popup__button_error {
+  background-color: #4DA2D6;
+}

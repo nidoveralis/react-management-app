@@ -93,7 +93,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
               onClick={() => setIsOpenSelect(!isOpenSelect)}
             >
               {roleLabel && <span className={styles.form__label}>Роль</span>}
-              <input type='text' value={roleLabel || 'Роль'} className={styles.form__input} />
+              <input type='text' value={roleLabel || 'Роль'} className={styles.form__input} onChange={()=>{}} />
               <span className={clsx(styles.selctIcon, isOpenSelect ? styles.selctIcon_active : '')}></span>
               {isOpenSelect && <ul className={styles.form__list}>
                 {options.map((el: { value: string, label: string }, index: number) => {

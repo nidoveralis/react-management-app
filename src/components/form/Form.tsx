@@ -79,9 +79,9 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenM
       document.removeEventListener("mousedown", handleClickOutsideModal);
     };
   }, []);
-
+console.log(value);
   return (
-    <div className={styles.form} style={{ width: `${title ? '100%' : 'auto'}` }} >
+    <div className={styles.form} style={{ width: `${'100%'}` }} >
       {title && <span className={styles.form__text}>{title}</span>}
       {isVisibleLabel &&
         <label
@@ -109,7 +109,7 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenM
               >{`${el.last_name} ${el.first_name}`}</li>)
             })}
             </>}
-          {(isVisibleButton && (!title || (title && value))) &&
+          {(isVisibleButton && !value && (!title || (title && value))) &&
             <>
               <li className={styles.form__item}>Пользователя с такими параметрами не найден, проверьте правильность написнаия или создайте нового!</li>
               <li className={clsx(styles.form__item, styles.form__item_add)} onClick={handleClickAddUser}>Добавить пользователя</li>

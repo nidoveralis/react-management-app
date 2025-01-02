@@ -68,26 +68,26 @@ console.log(isUser, isIdUser);
     }
   };
 
-  const handleClickEditUser = () => {console.log(22);
-    if (isIdUser) {console.log(1111);
+  const handleClickEditUser = () => {console.log(isUser);
+    if (isUser) {console.log(1111);
       editUsers({
         first_name: isUserData,
         role: isUserRole?.value || '',
         gender: 'male',
-        id: isIdUser
+        id: isUser.id
       }).then((res: any) => {console.log(333);
         console.log(res);
         cleanData();
         setIsOpenPopup(true);
-        // setPurpose(`${res.status.toString()}`);
+        setPurpose('201');
       });
     }
   };
 
   useEffect(() => {
     if(!isOpenModal) {
-      setIsUser(null);
-      setIsUserRole(null);
+    setIsUser(null);
+    setIsUserRole(null);
     }
   }, [isOpenModal]);
 
@@ -146,8 +146,8 @@ console.log(isUser, isIdUser);
           setIsOpenPopup={setIsOpenPopup}
           handleClickBtn={handleClickDelete}
           isOpen={isOpenPopup}
-          title={'Казимир Антонина Рикудович'}
-          subtitle={'Вы хотите удалить пользователя:'}
+          title={purpose ==='remove' ? `${isUser?.first_name} ${isUser?.last_name}` : purpose ==='201' ? 'Данные успешно сохранены' : 'Произошла ошибка на сервере'}
+          subtitle={purpose ==='remove' ? 'Вы хотите удалить пользователя:' : ''}
           purpose={purpose}
         />
       </CSSTransition>

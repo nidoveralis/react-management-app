@@ -13,7 +13,7 @@ interface IOptions {
 };
 
 const Popup: FC<IOptions> = ({ setIsOpenPopup, isOpen, title, purpose, subtitle, handleClickBtn }) => {
-console.log(isOpen);
+
   return (
     <div className={clsx(styles.wrapper, styles[purpose])}>
       <div className={styles.background} onClick={() => setIsOpenPopup(false)} >
@@ -29,9 +29,9 @@ console.log(isOpen);
                 <button className={styles.popup__button} onClick={() => handleClickBtn && handleClickBtn(true)}>Удалить</button>
                 <button className={styles.popup__button} onClick={() => setIsOpenPopup(false)}>Отменить</button>
               </>
-              : purpose === 'error'
-                ? <button className={styles.popup__button} onClick={() => setIsOpenPopup(false)}>Вернутся к списку</button>
-                : <button className={styles.popup__button} onClick={() => setIsOpenPopup(false)}>Закрыть</button>
+              : purpose === '201'
+                ? <button className={clsx(styles.popup__button, styles.popup__button_close)} onClick={() => setIsOpenPopup(false)}>Закрыть</button>
+                : <button className={clsx(styles.popup__button, styles.popup__button_error)} onClick={() => setIsOpenPopup(false)}>Вернутся к списку</button>
             }
           </div>
         </div>
