@@ -7,23 +7,24 @@ import Form from '../form/Form';
 import styles from './modal.module.css';
 
 interface IOptions {
+  setIsUserRole: (data: { value: string, label: string } | null) => void;
+  setIsGender: (data: string) => void;
   setIsOpenModal: (data: boolean) => void;
   handleClickSubmit: (data: any) => void;
   setIsUserData: (data: string) => void;
-  setIsUserRole: (data: { value: string, label: string } | null) => void;
   isOpen: boolean;
   role: { value: string, label: string } | null;
   data?: any;
+  isGender: string | null;
 };
 
-const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUserData, setIsUserRole, role }) => {
-  const [isGender, setIsGender] = useState<string | null>(data?.gender);
+const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSubmit, setIsUserData, setIsUserRole, role, isGender }) => {
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const roleLabel = role
     ? role.value === 'nurse' && isGender ? isGender === 'female' ? 'Медсестра' : 'Медбрат' : role.label
     : null;
 
-    const options = [
+  const options = [
     { value: 'doctor', label: 'Доктор' },
     ...(isGender === 'female' || !isGender ? [{ value: 'nurse', label: 'Медсестра' }] : []),
     ...(isGender === 'male' || !isGender ? [{ value: 'nurse', label: 'Медбрат' }] : []),
@@ -62,15 +63,15 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
           <button className='btnClose' onClick={handleClickCancel} />
           <Form
             handleChangeInput={handleChangeInput}
-            setIsOpenModal={()=>{}}
-            setIsUserList={()=>{}}
+            setIsOpenModal={() => { }}
+            setIsUserList={() => { }}
             title={data ? '' : 'Найти в списке'}
             label={'Пользователь'}
-            value={data ? `${data.first_name} ${data.last_name}` : ''}
+            name={data ? `${data.first_name} ${data.last_name}` : ''}
           />
           <div className={styles.form__wrapper}>
             <div className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__date)}>
-              <label className={styles.form__label} style={{left: '40px'}}>Дата рождения</label>
+              <label className={styles.form__label} style={{ left: '40px' }}>Дата рождения</label>
               <span className={styles.selctIcon}></span>
             </div>
             <div className={clsx(styles.formGroup, styles.form__gender)}>
@@ -93,7 +94,7 @@ const Modal: FC<IOptions> = ({ setIsOpenModal, data, handleClickSubmit, setIsUse
               onClick={() => setIsOpenSelect(!isOpenSelect)}
             >
               {roleLabel && <span className={styles.form__label}>Роль</span>}
-              <input type='text' value={roleLabel || 'Роль'} className={styles.form__input} onChange={()=>{}} />
+              <input type='text' value={roleLabel || 'Роль'} className={styles.form__input} onChange={() => { }} />
               <span className={clsx(styles.selctIcon, isOpenSelect ? styles.selctIcon_active : '')}></span>
               {isOpenSelect && <ul className={styles.form__list}>
                 {options.map((el: { value: string, label: string }, index: number) => {

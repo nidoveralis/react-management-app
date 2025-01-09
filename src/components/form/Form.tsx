@@ -8,7 +8,7 @@ interface IOptions {
   setIsUserList: (data: IUserOptions[]) => void;
   title?: string;
   label: string;
-  value?: string
+  name?: string
 }
 
 interface IUserOptions {
@@ -19,11 +19,12 @@ interface IUserOptions {
   last_name: string;
 }
 
-const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenModal, setIsUserList }) => {
+const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenModal, setIsUserList }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [isVisibleButton, setIsVisibleButton] = useState<boolean>(false);
-  const [isVisibleLabel, setIsVisibleLabel] = useState<boolean>(value ? true : false);
+  const [isVisibleLabel, setIsVisibleLabel] = useState<boolean>(name ? true : false);
   const [isUseVisiblerList, setIsVisibleUserList] = useState<IUserOptions[]>([]);
+  const [isValue, setIsValue] = useState<string>(name || '');
 
   const allUsersList = JSON.parse(localStorage.getItem('users') || '[]');
 
@@ -42,10 +43,11 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenM
   const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement).value;
     searchUsers(value);
-};
+  };
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
+    setIsValue(e.target.value);
     if (value !== '') {
       setIsVisibleLabel(true);
       searchUsers(value);
@@ -79,7 +81,7 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, value, setIsOpenM
       document.removeEventListener("mousedown", handleClickOutsideModal);
     };
   }, []);
-console.log(value);
+
   return (
     <div className={styles.form} style={{ width: `${'100%'}` }} >
       {title && <span className={styles.form__text}>{title}</span>}
@@ -94,7 +96,7 @@ console.log(value);
         type="text"
         onChange={(e) => { handleSearchInput(e) }}
         placeholder={label}
-        defaultValue={value || ''}
+        value={isValue}
         onClick={handleInputClick}
       // onBlur={() => claerData()}
       />
@@ -109,7 +111,7 @@ console.log(value);
               >{`${el.last_name} ${el.first_name}`}</li>)
             })}
             </>}
-          {(isVisibleButton && !value && (!title || (title && value))) &&
+          {(isVisibleButton && !name && (!title || (title && name))) &&
             <>
               <li className={styles.form__item}>Пользователя с такими параметрами не найден, проверьте правильность написнаия или создайте нового!</li>
               <li className={clsx(styles.form__item, styles.form__item_add)} onClick={handleClickAddUser}>Добавить пользователя</li>

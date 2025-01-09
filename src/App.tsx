@@ -17,6 +17,7 @@ interface IUserOptions {
   first_name: string;
   id: number;
   last_name: string;
+  gender?: string | null;
 }
 
 function App() {
@@ -25,11 +26,15 @@ function App() {
   const [isCountUser, setIsCountUser] = useState<number>(0);
   const [isUserList, setIsUserList] = useState<IUserOptions[]>([]);
   const [isUser, setIsUser] = useState<IUserOptions | null>(null);
+  // const [isUserInputValues, setIsUserInputValues] = useState<IUserOptions | null>(null);
   const [isIdUser, setIsIdUser] = useState<number | null>(null);
+  const [purpose, setPurpose] = useState<string>('');
+
   const [isUserData, setIsUserData] = useState<string>('');
   const [isUserRole, setIsUserRole] = useState<{ value: string, label: string } | null>(null);
-  const [purpose, setPurpose] = useState<string>('');
-console.log(isUser, isIdUser);
+  const [isGender, setIsGender] = useState<string | null>(null);
+
+
   const cleanData = () => {
     setIsUserData('');
     setIsOpenModal(false);
@@ -38,16 +43,25 @@ console.log(isUser, isIdUser);
   };
 
   const handleClickRemove = (id: number) => {
+    const finedUser = isUserList.find((user: IUserOptions) => user.id === id) || null;
     setIsIdUser(id);
+    setIsUser(finedUser);
     setIsOpenPopup(true);
     setPurpose('remove');
   }
 
   const handleClickDelete = (data: boolean) => {
     if (data && isIdUser) {
-      deleteUsers(isIdUser).then((res) => {
-        setIsIdUser(null);
-      });
+      deleteUsers(isIdUser)
+        .then((res) => {
+          setIsIdUser(null);
+          cleanData();
+          setIsOpenPopup(true);
+          setPurpose('success');
+        })
+        .catch(() => {
+          setPurpose('err');
+        });
     }
   };
 
@@ -61,33 +75,50 @@ console.log(isUser, isIdUser);
       addUsers({
         first_name: isUserData,
         role: isUserRole?.value || '',
-        gender: 'male'
+        gender: isGender || 'male'
       }).then(() => {
         cleanData();
+      }).catch(() => {
+        setPurpose('err');
       });
     }
   };
 
-  const handleClickEditUser = () => {console.log(isUser);
-    if (isUser) {console.log(1111);
-      editUsers({
-        first_name: isUserData,
+  const handleClickEditUser = () => {console.log(isUserRole, isGender, isUserData);
+    if (isUser) {
+      const nameParts = isUserData.split(' ');console.log(nameParts);
+      const updateUser = {
+        first_name: nameParts[0],
+        last_name: nameParts[1],
         role: isUserRole?.value || '',
-        gender: 'male',
+        gender: isGender || 'male',
         id: isUser.id
-      }).then((res: any) => {console.log(333);
-        console.log(res);
-        cleanData();
+      };
+      editUsers(updateUser).then((res: any) => {
+        const updatedUserList = isUserList.map((user: IUserOptions) => {
+          if (user.id === isUser.id) {
+            return {
+              ...user,
+              ...updateUser
+            };
+          }
+          return user;
+        });
+        localStorage.setItem('users', JSON.stringify(updatedUserList));
+        setIsUserList(updatedUserList);
         setIsOpenPopup(true);
-        setPurpose('201');
+        setPurpose('success');
+        cleanData();
+      }).catch(() => {
+        setPurpose('err');
       });
     }
   };
 
   useEffect(() => {
-    if(!isOpenModal) {
-    setIsUser(null);
-    setIsUserRole(null);
+    if (!isOpenModal) {
+      setIsUser(null);
+      setIsUserRole(null);
     }
   }, [isOpenModal]);
 
@@ -95,6 +126,8 @@ console.log(isUser, isIdUser);
     getUsers().then((res: any) => {
       setIsUserList(res.data);
       setIsCountUser(res.total);
+    }).catch(() => {
+      setPurpose('err');
     });
   }, []);
 
@@ -122,23 +155,25 @@ console.log(isUser, isIdUser);
       />
       <CSSTransition
         in={isOpenModal}
-        timeout={400}
+        timeout={300}
         classNames='alert'
         unmountOnExit
       >
         <Modal
-          setIsOpenModal={setIsOpenModal}
           handleClickSubmit={isUser ? handleClickEditUser : handleClickAdd}
+          setIsOpenModal={setIsOpenModal}
           setIsUserData={setIsUserData}
           setIsUserRole={setIsUserRole}
+          setIsGender={setIsGender}
           isOpen={isOpenModal}
+          isGender={isGender}
           role={isUserRole}
           data={isUser}
         />
       </CSSTransition>
       <CSSTransition
         in={isOpenPopup}
-        timeout={400}
+        timeout={500}
         classNames='alert'
         unmountOnExit
       >
@@ -146,8 +181,8 @@ console.log(isUser, isIdUser);
           setIsOpenPopup={setIsOpenPopup}
           handleClickBtn={handleClickDelete}
           isOpen={isOpenPopup}
-          title={purpose ==='remove' ? `${isUser?.first_name} ${isUser?.last_name}` : purpose ==='201' ? 'Данные успешно сохранены' : 'Произошла ошибка на сервере'}
-          subtitle={purpose ==='remove' ? 'Вы хотите удалить пользователя:' : ''}
+          title={purpose === 'remove' ? `${isUser?.first_name} ${isUser?.last_name}` : purpose === 'success' ? 'Данные успешно сохранены' : 'Произошла ошибка на сервере'}
+          subtitle={purpose === 'remove' ? 'Вы хотите удалить пользователя:' : ''}
           purpose={purpose}
         />
       </CSSTransition>

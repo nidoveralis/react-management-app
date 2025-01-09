@@ -13,7 +13,6 @@ export const getUsers = async () => {
     });
 
     localStorage.setItem('users', JSON.stringify(response.data.data));
-
     return response.data;
   } catch (err) {
     console.log(err);
@@ -26,7 +25,6 @@ export const addUsers = async (data: {
   gender: string
 }
 ) => {
-  console.log(data);
   try {
     const response = axios.post(`${BASE_URL}/users`, data, {
       headers: {
@@ -41,7 +39,7 @@ export const addUsers = async (data: {
 
 export const deleteUsers = async (id: number) => {
   try {
-    const response = axios.delete(`${BASE_URL}/users${id}`);
+    const response = axios.delete(`${BASE_URL}/users/${id}`);
     return response;
   } catch (err) {
     console.log(err);
@@ -50,17 +48,18 @@ export const deleteUsers = async (id: number) => {
 
 export const editUsers = async (data: {
   first_name: string,
+  last_name: string,
   role: string,
   gender: string,
   id: number
 }
 ) => {
   try {
-    const response = axios.post(`${BASE_URL}/users${data.id}`, data, {
+    const response = axios.patch(`${BASE_URL}/users/${data.id}`, data, {
       headers: {
         "Content-Type": "application/json",
       },
-    });console.log(response);
+    });
     return response;
   } catch (err) {
     console.log(err);

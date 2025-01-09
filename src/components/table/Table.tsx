@@ -9,13 +9,14 @@ interface IOptions {
   first_name: string;
   id: number;
   last_name: string;
+  gender?: string | null;
 }
 
 const TableCustomer: FC<{
   isUserList: IOptions[],
   handleClickRemove: (data: number) => void
   handleClickEdit: (data: IOptions) => void
-}> = ({ isUserList, handleClickRemove, handleClickEdit }) => {
+}> = ({ isUserList, handleClickRemove, handleClickEdit }) => {console.log(isUserList);
   return (
     <section className={styles.table__wrapper}>
       <table className={styles.table}>
