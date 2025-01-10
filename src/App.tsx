@@ -18,6 +18,7 @@ interface IUserOptions {
   id: number;
   last_name: string;
   gender?: string | null;
+  role?: { value: string, label: string } | null;
 }
 
 function App() {
@@ -34,12 +35,23 @@ function App() {
   const [isUserRole, setIsUserRole] = useState<{ value: string, label: string } | null>(null);
   const [isGender, setIsGender] = useState<string | null>(null);
 
-
   const cleanData = () => {
     setIsUserData('');
     setIsOpenModal(false);
     setIsIdUser(null);
     setIsUserRole(null);
+    setIsGender(null);
+  };
+
+  const updateUser = () => {
+    const nameParts = isUserData.split(' ');
+    const updateUser = {
+      first_name: nameParts[0],
+      last_name: nameParts[1],
+      role: isUserRole || null,
+      gender: isGender || 'female',
+    };
+    return updateUser;
   };
 
   const handleClickRemove = (id: number) => {
@@ -72,11 +84,12 @@ function App() {
 
   const handleClickAdd = () => {
     if (isUserData !== '') {
-      addUsers({
-        first_name: isUserData,
-        role: isUserRole?.value || '',
-        gender: isGender || 'male'
-      }).then(() => {
+      const newUser = updateUser();
+      addUsers(newUser).then((res: any) => {
+        setIsUserList((prev: IUserOptions[]) => { return [...prev, res.data] });
+        localStorage.setItem('users', JSON.stringify(isUserList));
+        setIsOpenPopup(true);
+        setPurpose('success');
         cleanData();
       }).catch(() => {
         setPurpose('err');
@@ -84,22 +97,16 @@ function App() {
     }
   };
 
-  const handleClickEditUser = () => {console.log(isUserRole, isGender, isUserData);
+  const handleClickEditUser = () => {
     if (isUser) {
-      const nameParts = isUserData.split(' ');console.log(nameParts);
-      const updateUser = {
-        first_name: nameParts[0],
-        last_name: nameParts[1],
-        role: isUserRole?.value || '',
-        gender: isGender || 'male',
-        id: isUser.id
-      };
-      editUsers(updateUser).then((res: any) => {
+      const newUser = updateUser();
+      editUsers({ ...newUser, id: isUser.id }).then((res: any) => {
         const updatedUserList = isUserList.map((user: IUserOptions) => {
           if (user.id === isUser.id) {
             return {
               ...user,
-              ...updateUser
+              ...newUser,
+              id: isUser.id
             };
           }
           return user;

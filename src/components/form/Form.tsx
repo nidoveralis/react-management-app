@@ -35,7 +35,8 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
 
   const searchUsers = (value: string) => {
     setIsVisibleUserList(allUsersList);
-    const findUsers = allUsersList.length > 0 ? allUsersList.filter((item: IUserOptions) => item.last_name.toLowerCase().includes(value)) : [];
+    const findUsers = allUsersList.length > 0 ? allUsersList.filter((item: IUserOptions) =>
+      item.last_name ? item.last_name.toLowerCase().includes(value) : null) : [];
     setIsVisibleUserList(findUsers);
     setIsVisibleButton(findUsers.length === 0);
   }

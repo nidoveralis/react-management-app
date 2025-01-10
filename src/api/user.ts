@@ -21,7 +21,7 @@ export const getUsers = async () => {
 
 export const addUsers = async (data: {
   first_name: string,
-  role: string,
+  role: { value: string, label: string } | null,
   gender: string
 }
 ) => {
@@ -49,7 +49,7 @@ export const deleteUsers = async (id: number) => {
 export const editUsers = async (data: {
   first_name: string,
   last_name: string,
-  role: string,
+  role: { value: string, label: string } | null,
   gender: string,
   id: number
 }

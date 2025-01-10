@@ -87,12 +87,18 @@
   color: #828D99;
 }
 
+.form__label_passive {
+  font-size: 14px;
+  top: 14px;
+}
+
 .form__wrapper {
   width: 100%;
   margin-top: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
 }
 
 .formGroup {
@@ -156,6 +162,10 @@
 
 .form__gender {
   gap: 5px;
+}
+
+.form__span {
+  margin-top: 2px;
 }
 
 .selctIcon {

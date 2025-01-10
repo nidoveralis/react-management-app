@@ -1,4 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+// import { registerLocale } from "react-datepicker";
+import DatePicker, {DateObject} from "react-multi-date-picker";
 
 import clsx from 'clsx';
 
@@ -20,6 +22,12 @@ interface IOptions {
 
 const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSubmit, setIsUserData, setIsUserRole, role, isGender }) => {
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
+  const [IsModalGender, setIsModalGender] = useState<string | null>(data?.gender || null);
+  const [selectedDate, setSelectedDate] = useState(data?.date || null);
+  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+  const name = data ? `${data.first_name || ''} ${data.last_name || ''}` : '';
+
   const roleLabel = role
     ? role.value === 'nurse' && isGender ? isGender === 'female' ? 'Медсестра' : 'Медбрат' : role.label
     : null;
@@ -36,8 +44,6 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
 
     if (inputValue !== '') {
       setIsUserData(e.target.value);
-    } else {
-      setIsUserData('');
     }
   };
 
@@ -50,6 +56,28 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
     setIsUserRole(null);
     setIsOpenModal(false);
   };
+
+  const handleDatePickerChange = (date: any) => {
+    setSelectedDate(date);
+    if (date) {
+      const formattedDate = new DateObject(date).format("YYYY-MM-DD");
+      // const day = String(date.getDate()).padStart(2, '0');
+      // const month = String(date.getMonth() + 1).padStart(2, '0');
+      // const year = date.getFullYear();
+
+      // const formattedDate = `${day}.${month}.${year}`;
+      // selectedDate(formattedDate); // Выводим в 
+      const parts = formattedDate.split('-');
+      setFormattedDate(`${parts[2]}.${parts[1]}.${parts[0]}`);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setIsUserData(name);
+    }
+    // eslint-disable-next-line
+  }, [data]);
 
   return (
     <div className={styles.modal}>
@@ -67,24 +95,45 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
             setIsUserList={() => { }}
             title={data ? '' : 'Найти в списке'}
             label={'Пользователь'}
-            name={data ? `${data.first_name} ${data.last_name}` : ''}
+            name={name}
           />
           <div className={styles.form__wrapper}>
             <div className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__date)}>
-              <label className={styles.form__label} style={{ left: '40px' }}>Дата рождения</label>
-              <span className={styles.selctIcon}></span>
+              <label
+                className={clsx(styles.form__label, { [styles.form__label_passive]: !formattedDate })}
+                style={{ left: '40px' }}>
+                Дата рождения
+              </label>
+              {formattedDate && <span className={styles.form__span}>{formattedDate}</span>}
+              <span className={styles.selctIcon}/>
             </div>
+            <DatePicker
+              dateSeparator={' '}
+              value={selectedDate}
+              onChange={handleDatePickerChange}
+              range={false}
+              numberOfMonths={1}
+              weekDays={['ВСК', 'ПНД', 'ВТР', 'СРД', 'ЧТВ', 'ПТН', 'СБТ']}
+              months={['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']}
+              showOtherDays={true}
+              weekStartDayIndex={1}
+              shadow={false}
+              highlightToday={false}
+              monthYearSeparator={' '}
+              maxDate={new Date()}
+            />
+
             <div className={clsx(styles.formGroup, styles.form__gender)}>
               <button
-                className={clsx(styles.genderBtn, isGender === 'male' ? styles.modal__button_active : '')}
-                onClick={() => setIsGender('male')}
+                className={clsx(styles.genderBtn, IsModalGender === 'male' ? styles.modal__button_active : '')}
+                onClick={() => { setIsGender('male'); setIsModalGender('male') }}
               >
                 <span className={clsx(styles.form__icon, styles.form__icon_male)} />
                 <span>Мужской</span>
               </button>
               <button
-                className={clsx(styles.genderBtn, isGender === 'female' ? styles.modal__button_active : '')}
-                onClick={() => setIsGender('female')}>
+                className={clsx(styles.genderBtn, IsModalGender === 'female' ? styles.modal__button_active : '')}
+                onClick={() => { setIsGender('female'); setIsModalGender('female') }}>
                 <span className={clsx(styles.form__icon, styles.form__icon_female)} />
                 <span>Женский</span>
               </button>
