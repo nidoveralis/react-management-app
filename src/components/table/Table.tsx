@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import AvatarImg from '../../assets/img/avatar.png';
 
@@ -13,15 +13,17 @@ interface IOptions {
   last_name: string;
   gender?: string | null;
   role?: {value: string, label: string} | null;
+  date?: string | null;
 };
 
 const TableCustomer: FC<{
   isUserList: IOptions[],
   handleClickRemove: (data: number) => void
   handleClickEdit: (data: IOptions) => void
-}> = ({ isUserList, handleClickRemove, handleClickEdit }) => {
+  handleScroll: (event: React.UIEvent<HTMLDivElement>) => void
+}> = ({ isUserList, handleClickRemove, handleClickEdit, handleScroll }) => {
   return (
-    <section className={styles.table__wrapper}>
+    <section className={styles.table__wrapper} onScroll={handleScroll}>
       <table className={styles.table}>
         <tbody>
           {isUserList.map((user: IOptions, index: number) => {
@@ -45,14 +47,14 @@ const TableCustomer: FC<{
                   </div>
                 </td>
                 <td>{user.email}</td>
-                <td>24.10.1998</td>
-                <td>
+                <td className={styles.table__td}>{user?.date || ''}</td>
+                <td className={styles.table__td}>
                   <div className={styles.table__container}>
                     <i className={clsx(styles.table__gender, styles.table__gender_female)} />
                     <span>{!user.gender || user.gender === 'female' ? 'Женский' : 'Мужской'}</span>
                   </div>
                 </td>
-                <td>{isRole}</td>
+                <td className={styles.table__td}>{isRole}</td>
                 <td>
                   <div className={styles.table__container}>
                     <button className={clsx(styles.table__btn, styles.table__btn_edit)} onClick={() => handleClickEdit(user)} />

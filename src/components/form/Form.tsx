@@ -6,9 +6,11 @@ interface IOptions {
   handleChangeInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setIsOpenModal: (data: boolean) => void;
   setIsUserList: (data: IUserOptions[]) => void;
+  setIsError?: (data: string) => void;
   title?: string;
   label: string;
-  name?: string
+  name?: string;
+  isError?: string;
 }
 
 interface IUserOptions {
@@ -19,8 +21,19 @@ interface IUserOptions {
   last_name: string;
 }
 
-const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenModal, setIsUserList }) => {
+const Form: FC<IOptions> = ({
+  handleChangeInput,
+  setIsOpenModal,
+  setIsUserList,
+  setIsError,
+  isError,
+  title,
+  label,
+  name,
+}) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const [isVisibleButton, setIsVisibleButton] = useState<boolean>(false);
   const [isVisibleLabel, setIsVisibleLabel] = useState<boolean>(name ? true : false);
   const [isUseVisiblerList, setIsVisibleUserList] = useState<IUserOptions[]>([]);
@@ -28,7 +41,7 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
 
   const allUsersList = JSON.parse(localStorage.getItem('users') || '[]');
 
-  const claerData = () => {
+  const clearData = () => {
     setIsVisibleButton(false);
     setIsVisibleUserList([]);
   };
@@ -50,6 +63,9 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
     const value = e.target.value.toLowerCase();
     setIsValue(e.target.value);
     if (value !== '') {
+      if (setIsError) {
+        setIsError('');
+      }
       setIsVisibleLabel(true);
       searchUsers(value);
       if (handleChangeInput) {
@@ -57,7 +73,7 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
       }
     } else {
       setIsVisibleLabel(false);
-      claerData();
+      clearData();
     }
   };
 
@@ -66,13 +82,29 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
     setIsVisibleButton(false);
   };
 
+  const handleOnBlurInput = () => {
+    if (setIsError) {
+      if (isValue.trim().length === 0) {
+        setIsError('name');
+      } else {
+        setIsError('');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isError === 'name' && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isError]);
+
   useEffect(() => {
     const handleClickOutsideModal = (e: MouseEvent) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(e.target as Node)
       ) {
-        claerData();
+        clearData();
         setIsVisibleButton(false);
       }
     };
@@ -93,13 +125,14 @@ const Form: FC<IOptions> = ({ handleChangeInput, title, label, name, setIsOpenMo
         >{label}</label>
       }
       <input
-        className={styles.form__input}
+        ref={inputRef}
+        className={clsx(styles.form__input, { [styles.form__input_error]: isError === 'name' })}
         type="text"
         onChange={(e) => { handleSearchInput(e) }}
         placeholder={label}
         value={isValue}
         onClick={handleInputClick}
-      // onBlur={() => claerData()}
+        onBlur={handleOnBlurInput}
       />
       <div ref={modalRef}>
         <ul className={styles.form__list} style={{ top: `${title ? 90 : 55}px` }}>

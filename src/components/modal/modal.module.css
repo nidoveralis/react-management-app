@@ -126,6 +126,10 @@
   width: 27%;
 }
 
+.formGroup_error {
+  background-color: #FFE9E5;
+}
+
 .form__list {
   margin: 0;
   position: absolute;
@@ -162,10 +166,6 @@
 
 .form__gender {
   gap: 5px;
-}
-
-.form__span {
-  margin-top: 2px;
 }
 
 .selctIcon {
@@ -245,11 +245,19 @@
 
   span {
     filter: brightness(0) invert(1);
-  }
+    -webkit-filter: brightness(0) invert(1);
+}
 }
 
 .modal__button_active:hover {
   background-color: #4087B2;
+}
+
+.modal__button:disabled,
+.modal__button_active:disabled {
+  opacity: .6;
+  cursor: auto;
+  background-color: #4DA2D6;
 }
 
 @media screen and (min-width: 921px) {

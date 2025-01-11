@@ -1,7 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-// import { registerLocale } from "react-datepicker";
-import DatePicker, {DateObject} from "react-multi-date-picker";
-
+import DatePicker, { DateObject } from "react-multi-date-picker";
 import clsx from 'clsx';
 
 import Form from '../form/Form';
@@ -12,19 +10,34 @@ interface IOptions {
   setIsUserRole: (data: { value: string, label: string } | null) => void;
   setIsGender: (data: string) => void;
   setIsOpenModal: (data: boolean) => void;
-  handleClickSubmit: (data: any) => void;
+  handleClickSubmit: () => void;
   setIsUserData: (data: string) => void;
+  setFormattedDate: (data: string | null) => void;
   isOpen: boolean;
+  isUserData: string;
   role: { value: string, label: string } | null;
   data?: any;
   isGender: string | null;
+  formattedDate: string | null;
 };
 
-const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSubmit, setIsUserData, setIsUserRole, role, isGender }) => {
+const Modal: FC<IOptions> = ({
+  setIsGender,
+  setIsOpenModal,
+  handleClickSubmit,
+  setIsUserData,
+  setIsUserRole,
+  setFormattedDate,
+  formattedDate,
+  isUserData,
+  isGender,
+  data,
+  role,
+}) => {
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const [IsModalGender, setIsModalGender] = useState<string | null>(data?.gender || null);
-  const [selectedDate, setSelectedDate] = useState(data?.date || null);
-  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<DateObject | null>(null);
+  const [isError, setIsError] = useState<string>('');
 
   const name = data ? `${data.first_name || ''} ${data.last_name || ''}` : '';
 
@@ -38,6 +51,30 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
     ...(isGender === 'male' || !isGender ? [{ value: 'nurse', label: 'Медбрат' }] : []),
     { value: 'admin', label: 'Админ' },
   ];
+
+  const isValidDate = (inputDate: string): boolean => {
+    const [day, month, year] = inputDate.split('.');
+    const inputBirthday = new Date(Number(year), Number(month) - 1, Number(day));
+    const today = new Date();
+    let age = today.getFullYear() - inputBirthday.getFullYear();
+
+    if (
+      today.getMonth() < inputBirthday.getMonth() ||
+      (today.getMonth() === inputBirthday.getMonth() && today.getDate() < inputBirthday.getDate())
+    ) {
+      age--;
+    }
+
+    return age < 18;
+  };
+
+  const handleClickOnSave = () => {
+    if (isUserData === '') {
+      setIsError('name');
+    } else {
+      handleClickSubmit();
+    }
+  };
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.trim();
@@ -59,22 +96,20 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
 
   const handleDatePickerChange = (date: any) => {
     setSelectedDate(date);
-    if (date) {
-      const formattedDate = new DateObject(date).format("YYYY-MM-DD");
-      // const day = String(date.getDate()).padStart(2, '0');
-      // const month = String(date.getMonth() + 1).padStart(2, '0');
-      // const year = date.getFullYear();
-
-      // const formattedDate = `${day}.${month}.${year}`;
-      // selectedDate(formattedDate); // Выводим в 
-      const parts = formattedDate.split('-');
-      setFormattedDate(`${parts[2]}.${parts[1]}.${parts[0]}`);
-    }
+    const newDate = new DateObject(date).toString();
+    setFormattedDate(newDate);
+    setIsError(isValidDate(newDate) ? 'date' : '');
   };
 
   useEffect(() => {
     if (data) {
       setIsUserData(name);
+      setFormattedDate(data?.date || null);
+      if (data?.date) {
+        const [day, month, year] = data?.date.split(".");
+        const fullYear = year.length === 2 ? (parseInt(year) < 50 ? `20${year}` : `19${year}`) : year;
+        setSelectedDate(new DateObject(`${fullYear}-${month}-${day}`));
+      }
     }
     // eslint-disable-next-line
   }, [data]);
@@ -96,22 +131,30 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
             title={data ? '' : 'Найти в списке'}
             label={'Пользователь'}
             name={name}
+            isError={isError}
+            setIsError={setIsError}
           />
           <div className={styles.form__wrapper}>
-            <div className={clsx(styles.formGroup, styles.formGroup__select, styles.formGroup__date)}>
+            <div
+              className={clsx(
+                styles.formGroup,
+                styles.formGroup__select,
+                styles.formGroup__date,
+                { [styles.formGroup_error]: isError === 'date' }
+              )}>
               <label
                 className={clsx(styles.form__label, { [styles.form__label_passive]: !formattedDate })}
-                style={{ left: '40px' }}>
+                style={{ left: '40px', color: `${isError === 'date' ? '#FF4A33' : '#828D99'}` }}>
                 Дата рождения
               </label>
-              {formattedDate && <span className={styles.form__span}>{formattedDate}</span>}
-              <span className={styles.selctIcon}/>
+              <span className={styles.selctIcon} />
             </div>
             <DatePicker
               dateSeparator={' '}
               value={selectedDate}
               onChange={handleDatePickerChange}
               range={false}
+              format={"DD.MM.YYYY"}
               numberOfMonths={1}
               weekDays={['ВСК', 'ПНД', 'ВТР', 'СРД', 'ЧТВ', 'ПТН', 'СБТ']}
               months={['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']}
@@ -155,7 +198,12 @@ const Modal: FC<IOptions> = ({ setIsGender, setIsOpenModal, data, handleClickSub
             </div>
           </div>
           <div className={styles.modal__btns}>
-            <button className={clsx(styles.modal__button, styles.modal__button_active)} onClick={handleClickSubmit}>{data ? 'Сохранить' : 'Добавить'}</button>
+            <button
+              disabled={isError !== ''}
+              className={clsx(styles.modal__button, styles.modal__button_active)}
+              onClick={handleClickOnSave}>
+              {data ? 'Сохранить' : 'Добавить'}
+            </button>
             <button className={styles.modal__button} onClick={handleClickCancel}>Отменить</button>
           </div>
         </div>

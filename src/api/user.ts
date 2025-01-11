@@ -5,14 +5,12 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const getUsers = async () => {
+export const getUsers = async (page: number) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/users`, {
+      `${BASE_URL}/users?page=${page}`, {
       headers
     });
-
-    localStorage.setItem('users', JSON.stringify(response.data.data));
     return response.data;
   } catch (err) {
     console.log(err);
@@ -22,7 +20,8 @@ export const getUsers = async () => {
 export const addUsers = async (data: {
   first_name: string,
   role: { value: string, label: string } | null,
-  gender: string
+  gender: string | null,
+  date: string | null,
 }
 ) => {
   try {
@@ -50,7 +49,8 @@ export const editUsers = async (data: {
   first_name: string,
   last_name: string,
   role: { value: string, label: string } | null,
-  gender: string,
+  gender: string | null,
+  date: string | null,
   id: number
 }
 ) => {

@@ -28,6 +28,15 @@
   letter-spacing: 0.077em;
   font-weight: 500;
   cursor: pointer;
+  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+}
+
+.header__button:hover {
+  opacity: .8;
 }
 
 .header__icon {

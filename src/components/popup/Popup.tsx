@@ -5,14 +5,13 @@ import clsx from 'clsx';
 
 interface IOptions {
   setIsOpenPopup: (data: boolean) => void;
-  isOpen: boolean;
   title: string;
   purpose: string;
   subtitle?: string;
   handleClickBtn?: (data: boolean) => void;
 };
 
-const Popup: FC<IOptions> = ({ setIsOpenPopup, isOpen, title, purpose, subtitle, handleClickBtn }) => {
+const Popup: FC<IOptions> = ({ setIsOpenPopup, title, purpose, subtitle, handleClickBtn }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

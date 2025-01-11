@@ -28,6 +28,10 @@
   background-color: #F2F4F7;
 }
 
+.form__input_error {
+  background-color: #FFE9E5;
+}
+
 .form__input:focus {
   outline: none;
 }
@@ -61,6 +65,15 @@
   line-height: 18px;
   font-weight: 500;
   cursor: pointer;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+.form__item:hover {
+  background-color: #E9EDF5;
 }
 
 .form__item_disable {
