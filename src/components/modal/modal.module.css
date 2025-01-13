@@ -9,9 +9,10 @@
   background: #CCCCCC;
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
+  overflow: auto;
 }
 
 .modal__wrapper {
@@ -34,7 +35,6 @@
 
 .modal__title {
   font-weight: 600;
-  font-size: 25px;
   letter-spacing: 0.025em;
   margin: 0 0 31px 0;
 }
@@ -48,7 +48,6 @@
 }
 
 .form__text {
-  font-size: 20px;
   text-align: start;
 }
 
@@ -94,9 +93,9 @@
 
 .form__wrapper {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 11px;
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
   position: relative;
 }
@@ -284,6 +283,18 @@
 @media screen and (max-width: 1450px) {
   .form__wrapper {
     flex-wrap: wrap;
+  }
+}
+
+@media screen and (min-width: 1076px) {
+  .modal__title {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 1075px) {
+  .modal__title {
+    font-size: 16px;
   }
 }
 
