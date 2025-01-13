@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/react-management-app/static/css/main.30780692.css",
+    "main.css": "/react-management-app/static/css/main.ded6a529.css",
     "main.js": "/react-management-app/static/js/main.ef89a7fa.js",
     "static/media/Montserrat-Medium.woff2": "/react-management-app/static/media/Montserrat-Medium.9c3c8454f19e7e08dc14.woff2",
     "static/media/Montserrat-Regular.woff": "/react-management-app/static/media/Montserrat-Regular.cddc799da28356873ebf.woff",
@@ -20,11 +20,11 @@
     "static/media/arrow.svg": "/react-management-app/static/media/arrow.eba02dcffee0968ba02f.svg",
     "static/media/arrow-sort.svg": "/react-management-app/static/media/arrow-sort.97cf8d05791ab8b15fc7.svg",
     "static/media/plus.svg": "/react-management-app/static/media/plus.262735b265cd8929d8b9.svg",
-    "main.30780692.css.map": "/react-management-app/static/css/main.30780692.css.map",
+    "main.ded6a529.css.map": "/react-management-app/static/css/main.ded6a529.css.map",
     "main.ef89a7fa.js.map": "/react-management-app/static/js/main.ef89a7fa.js.map"
   },
   "entrypoints": [
-    "static/css/main.30780692.css",
+    "static/css/main.ded6a529.css",
     "static/js/main.ef89a7fa.js"
   ]
 }
