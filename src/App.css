@@ -8,36 +8,6 @@
   padding: 10px 10px;
   margin: 2px 30px;
   width: calc(100vw - 80px);
-  overflow-x: scroll;
-  overflow-y: hidden;
-  min-width: 875px;
-}
-
-.mainForm::-webkit-scrollbar {
-  background: none;
-  height: 10px;
-  width: 6px;
-}
-
-.mainForm::-webkit-scrollbar-track {
-  background: none;
-}
-
-.mainForm::-webkit-scrollbar-thumb {
-  background-color: #C3D3E5;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-}
-
-.mainForm::-webkit-scrollbar-thumb:hover {
-  background-color: #C3D3E5;
-}
-
-.mainForm::-webkit-scrollbar-thumb:active {
-  background-color: #C3D3E5;
 }
 
 .mainForm__footer {
@@ -46,6 +16,7 @@
   align-items: center;
   width: calc(100% - 109px);
   justify-content: flex-end;
+  min-width: 973px;
 
   span {
     font-size: 14px;
