@@ -183,3 +183,9 @@ body::-webkit-scrollbar-thumb:active {
   border: none;
   box-shadow: none;
 }
+
+.no-border .rmdp-input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}

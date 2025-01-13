@@ -166,6 +166,7 @@ const Modal: FC<IOptions> = ({
               highlightToday={false}
               monthYearSeparator={' '}
               maxDate={new Date()}
+              className="no-border"
             />
             <div className={clsx(styles.formGroup, styles.form__gender)}>
               <button
