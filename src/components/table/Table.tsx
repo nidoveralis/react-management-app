@@ -42,7 +42,7 @@ const TableCustomer: FC<{
                       src={user?.avatar || AvatarImg}
                       className={styles.table__avatar}
                     />
-                    <span>{`${user.last_name || ''} ${user.first_name.slice(0, 1)}.`}</span>
+                    <span>{`${user.last_name || ''} ${user.first_name}`}</span>
                   </div>
                 </td>
                 <td>{user.email}</td>

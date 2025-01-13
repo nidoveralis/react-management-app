@@ -3,6 +3,7 @@
   height: calc(100vh - 553px);
   width: calc(100vw - 60px);
   margin: 21px 30px;
+  min-height: 445px;
 }
 
 .table {
