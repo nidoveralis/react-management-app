@@ -162,6 +162,15 @@
   padding: 15px 10px;
   flex: 1;
   letter-spacing: 0.1em;
+  transition: all .3s linear;
+  -webkit-transition: all .3s linear;
+  -moz-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
+}
+
+.popup__button:hover {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .remove .popup__button:first-child {

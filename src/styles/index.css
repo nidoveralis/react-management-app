@@ -36,7 +36,7 @@ button {
 }
 
 .btnClose:hover {
-  filter: invert(24%) sepia(9%) saturate(536%) hue-rotate(173deg) brightness(98%) contrast(86%);
+  opacity: .8;
 }
 
 .alert-enter {

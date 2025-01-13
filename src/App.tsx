@@ -25,7 +25,7 @@ interface IUserOptions {
 const sortOptions = [
   { value: 'name', label: 'По алфавиту А-Я' },
   { value: 'gender', label: 'По полу' },
-  { value: 'date', label: 'По дату' }
+  { value: 'date', label: 'По дате' }
 ];
 
 function App() {
@@ -43,7 +43,10 @@ function App() {
   const [isUserRole, setIsUserRole] = useState<{ value: string, label: string } | null>(null);
   const [isGender, setIsGender] = useState<string | null>(null);
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
-  const [isSort, setIsSort] = useState<{ value: string, label: string }>({ value: 'name', label: 'По алфавиту А-Я' });
+  const [isNewUser, setIsNewUser] = useState<number | null>(null);
+  const [isCountSort, setIsCountSort] = useState<number>(0);
+
+  const allUsersList = JSON.parse(localStorage.getItem('users') || '[]');
 
   const cleanData = () => {
     setIsUserData('');
@@ -79,8 +82,10 @@ function App() {
     if (data && isIdUser) {
       deleteUsers(isIdUser)
         .then((res) => {
-          const filteredList = isUserList.filter((el: IUserOptions) => el.id !== isIdUser);
+          const filteredList = allUsersList.filter((el: IUserOptions) => el.id !== isIdUser);console.log();
           setIsUserList(filteredList);
+          localStorage.setItem('users', JSON.stringify(filteredList));
+          setIsCountUser(filteredList.length);
           setIsOpenPopup(false);
           cleanData();
         })
@@ -101,7 +106,8 @@ function App() {
       addUsers(newUser).then((res: any) => {
         setIsOpenPopup(true);
         setPurpose('success');
-        sortingUsersList([...isUserList, res.data]);
+        sortingUsersList([...allUsersList, res.data]);
+        setIsNewUser(Number(res.data.id));
         cleanData();
       }).catch(() => {
         setPurpose('err');
@@ -117,8 +123,7 @@ function App() {
           if (user.id === isUser.id) {
             return {
               ...user,
-              ...newUser,
-              id: isUser.id
+              ...newUser
             };
           }
           return user;
@@ -133,11 +138,6 @@ function App() {
     }
   };
 
-  const handleClickSorted = () => {
-    const findInd = sortOptions.findIndex((item) => item.value === isSort.value);
-    setIsSort(sortOptions[findInd > 1 ? 0 : findInd + 1]);
-  };
-
   const parseDateString = (dateString: string): Date => {
     const [day, month, year] = dateString.split('.');
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
@@ -145,6 +145,7 @@ function App() {
 
   const sortingUsersList = (list: IUserOptions[]) => {
     let sortedUsers: IUserOptions[] = [];
+    const isSort = sortOptions[isCountSort];
 
     if (isSort.value === 'gender') {
       sortedUsers = [...list].sort((a: IUserOptions, b: IUserOptions) => {
@@ -196,7 +197,9 @@ function App() {
         return 0;
       });
     }
-    setIsUserList(sortedUsers);
+    setIsUserList(sortedUsers);console.log(sortedUsers);
+    setIsCountUser(sortedUsers.length);
+    localStorage.setItem('users', JSON.stringify(sortedUsers));
   };
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -212,7 +215,9 @@ function App() {
     setIsLoading(true);
     try {
       const res = await getUsers(page);
-      sortingUsersList([...isUserList, ...res.data]);
+      const combinedList = [...isUserList, ...res.data];
+      const uniqueUsersMap = new Map(combinedList.map(user => [user.id, user]));
+      sortingUsersList(Array.from(uniqueUsersMap.values()));
       setIsCountUser(res.total);
       setTotalPages(res.total_pages);
     } catch (error) {
@@ -230,11 +235,7 @@ function App() {
   useEffect(() => {
     sortingUsersList(isUserList);
     // eslint-disable-next-line
-  }, [isSort]);
-
-  useEffect(() => {
-    localStorage.setItem('users', JSON.stringify(isUserList));
-  }, [isUserList]);
+  }, [isCountSort]);
 
   useEffect(() => {
     if (!isOpenPopup) {
@@ -258,17 +259,23 @@ function App() {
           label='Поиск...'
         />
         <div className='mainForm__footer'>
-          <div>
-            <span>ФИО пользователя</span>
-            {/* <div> */}
-            {/* <span>{isSort.label}</span>
-              <div>
-                <i></i>
-                <i></i>
-
+          <div className='mainForm__sort'>
+            <p className='mainForm__text'>ФИО пользователя</p>
+            <div className='mainForm__sort'>
+              <span>{sortOptions[isCountSort].label}</span>
+              <div className='mainForm__wrapperBtn'>
+                <button
+                  className='mainForm__btnSorted'
+                  disabled={isCountSort === 0}
+                  onClick={() => setIsCountSort((prev: number) => prev - 1)}
+                />
+                <button
+                  className='mainForm__btnSorted mainForm__btnSorted_next'
+                  disabled={isCountSort === 2}
+                  onClick={() => setIsCountSort((prev: number) => prev + 1)}
+                />
               </div>
-            </div> */}
-            <button className='mainForm__btnSorted' onClick={handleClickSorted}>{isSort.label}</button>
+            </div>
           </div>
           <span>Контактные данные</span>
           <span>Дата рождения</span>
@@ -281,6 +288,7 @@ function App() {
         handleClickRemove={handleClickRemove}
         handleClickEdit={handleClickEdit}
         handleScroll={handleScroll}
+        activeId={isNewUser}
       />
       <CSSTransition
         in={isOpenModal}

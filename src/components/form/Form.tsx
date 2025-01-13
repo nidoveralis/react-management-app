@@ -49,7 +49,7 @@ const Form: FC<IOptions> = ({
   const searchUsers = (value: string) => {
     setIsVisibleUserList(allUsersList);
     const findUsers = allUsersList.length > 0 ? allUsersList.filter((item: IUserOptions) =>
-      item.last_name ? item.last_name.toLowerCase().includes(value) : null) : [];
+      item.last_name ? item.last_name.toLowerCase().includes(value.toLowerCase()) : null) : [];
     setIsVisibleUserList(findUsers);
     setIsVisibleButton(findUsers.length === 0);
   }
@@ -91,6 +91,21 @@ const Form: FC<IOptions> = ({
       }
     }
   };
+
+  const handleClickUser = (el: IUserOptions) => {
+    if (!title) {
+      setIsValue(el.last_name);
+      setIsUserList([el]);
+      setIsVisibleUserList([]);
+    }
+  };
+
+  useEffect(() => {
+    if (isValue === '') {
+      setIsUserList(allUsersList);
+    }
+    // eslint-disable-next-line
+  }, [isValue]);
 
   useEffect(() => {
     if (isError === 'name' && inputRef.current) {
@@ -141,7 +156,7 @@ const Form: FC<IOptions> = ({
               return (<li
                 key={index}
                 className={clsx(styles.form__item, title && styles.form__item_disable)}
-                onClick={() => { setIsUserList([el]) }}
+                onClick={() => handleClickUser(el)}
               >{`${el.last_name} ${el.first_name}`}</li>)
             })}
             </>}

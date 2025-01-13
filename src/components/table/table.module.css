@@ -156,5 +156,9 @@ tr {
   height: 58px !important;
   display: inline-block;
   width: 100%;
-  margin-top: 13px;
+  padding-top: 13px;
+}
+
+.tr_active {
+  background-color: #E9EDF5;
 }

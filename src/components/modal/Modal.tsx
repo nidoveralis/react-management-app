@@ -95,10 +95,12 @@ const Modal: FC<IOptions> = ({
   };
 
   const handleDatePickerChange = (date: any) => {
-    setSelectedDate(date);
-    const newDate = new DateObject(date).toString();
-    setFormattedDate(newDate);
-    setIsError(isValidDate(newDate) ? 'date' : '');
+    if (date) {
+      setSelectedDate(date);
+      const newDate = new DateObject(date).toString();
+      setFormattedDate(newDate);
+      setIsError(isValidDate(newDate) ? 'date' : '');
+    }
   };
 
   useEffect(() => {
@@ -165,7 +167,6 @@ const Modal: FC<IOptions> = ({
               monthYearSeparator={' '}
               maxDate={new Date()}
             />
-
             <div className={clsx(styles.formGroup, styles.form__gender)}>
               <button
                 className={clsx(styles.genderBtn, IsModalGender === 'male' ? styles.modal__button_active : '')}

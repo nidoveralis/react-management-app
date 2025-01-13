@@ -237,6 +237,11 @@
   width: 260px;
   height: 44px;
   background-color: #F2F4F7;
+  transition: all .3s linear;
+  -webkit-transition: all .3s linear;
+  -moz-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
 }
 
 .modal__button_active {
@@ -247,6 +252,10 @@
     filter: brightness(0) invert(1);
     -webkit-filter: brightness(0) invert(1);
 }
+}
+
+.modal__button:hover {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .modal__button_active:hover {

@@ -12,16 +12,17 @@ interface IOptions {
   id: number;
   last_name: string;
   gender?: string | null;
-  role?: {value: string, label: string} | null;
+  role?: { value: string, label: string } | null;
   date?: string | null;
 };
 
 const TableCustomer: FC<{
+  activeId: number | null,
   isUserList: IOptions[],
   handleClickRemove: (data: number) => void
   handleClickEdit: (data: IOptions) => void
   handleScroll: (event: React.UIEvent<HTMLDivElement>) => void
-}> = ({ isUserList, handleClickRemove, handleClickEdit, handleScroll }) => {
+}> = ({ activeId, isUserList, handleClickRemove, handleClickEdit, handleScroll }) => {
   return (
     <section className={styles.table__wrapper} onScroll={handleScroll}>
       <table className={styles.table}>
@@ -32,8 +33,7 @@ const TableCustomer: FC<{
               : !user.gender || user.gender === 'female' ? 'Медсестра' : 'Медбрат';
             return (
               <tr
-                onClick={() => { }}
-                className="active__link_tr"
+                className={activeId === Number(user.id) ? `${styles.tr_active}` : ''}
                 key={index}
               >
                 <td>
