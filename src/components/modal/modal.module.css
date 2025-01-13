@@ -271,12 +271,14 @@
 @media screen and (min-width: 921px) {
   .modal__form {
     width: 49%;
+    min-width: 590px;
   }
 }
 
 @media screen and (max-width: 920px) {
   .modal__form {
     width: 70%;
+    min-width: 590px;
   }
 }
 
