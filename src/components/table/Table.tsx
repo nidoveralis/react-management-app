@@ -21,10 +21,9 @@ const TableCustomer: FC<{
   isUserList: IOptions[],
   handleClickRemove: (data: number) => void
   handleClickEdit: (data: IOptions) => void
-  handleScroll: (event: React.UIEvent<HTMLDivElement>) => void
-}> = ({ activeId, isUserList, handleClickRemove, handleClickEdit, handleScroll }) => {
+}> = ({ activeId, isUserList, handleClickRemove, handleClickEdit }) => {
   return (
-    <section className={styles.table__wrapper} onScroll={handleScroll}>
+    <section className={styles.table__wrapper}>
       <table className={styles.table}>
         <tbody>
           {isUserList.map((user: IOptions, index: number) => {

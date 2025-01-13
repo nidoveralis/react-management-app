@@ -10,6 +10,7 @@ import { deleteUsers, getUsers, addUsers, editUsers } from './api/user';
 import './App.css';
 import Form from './components/form/Form';
 import Popup from './components/popup/Popup';
+import Loader from './components/loader/loader';
 
 interface IUserOptions {
   avatar: string;
@@ -56,6 +57,7 @@ function App() {
     setIsGender(null);
     setFormattedDate(null);
     setIsUser(null);
+    setIsLoading(false);
   };
 
   const updateUser = () => {
@@ -80,12 +82,13 @@ function App() {
 
   const handleClickDelete = (data: boolean) => {
     if (data && isIdUser) {
+      setIsLoading(true);
       deleteUsers(isIdUser)
         .then((res) => {
-          const filteredList = allUsersList.filter((el: IUserOptions) => el.id !== isIdUser);console.log();
+          const filteredList = allUsersList.filter((el: IUserOptions) => el.id !== isIdUser);
           setIsUserList(filteredList);
           localStorage.setItem('users', JSON.stringify(filteredList));
-          setIsCountUser(filteredList.length);
+          setIsCountUser((prev: number) => prev - 1);
           setIsOpenPopup(false);
           cleanData();
         })
@@ -102,11 +105,13 @@ function App() {
 
   const handleClickAdd = () => {
     if (isUserData !== '') {
+      setIsLoading(true);
       const newUser = updateUser();
       addUsers(newUser).then((res: any) => {
         setIsOpenPopup(true);
         setPurpose('success');
         sortingUsersList([...allUsersList, res.data]);
+        setIsCountUser((prev: number) => prev + 1);
         setIsNewUser(Number(res.data.id));
         cleanData();
       }).catch(() => {
@@ -117,6 +122,7 @@ function App() {
 
   const handleClickEditUser = () => {
     if (isUser) {
+      setIsLoading(true);
       const newUser = updateUser();
       editUsers({ ...newUser, id: isUser.id }).then((res: any) => {
         const updatedUserList = isUserList.map((user: IUserOptions) => {
@@ -197,18 +203,8 @@ function App() {
         return 0;
       });
     }
-    setIsUserList(sortedUsers);console.log(sortedUsers);
-    setIsCountUser(sortedUsers.length);
+    setIsUserList(sortedUsers);
     localStorage.setItem('users', JSON.stringify(sortedUsers));
-  };
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-    if (!isLoading && scrollTop + clientHeight >= scrollHeight - 20) {
-      if (currentPage < totalPages) {
-        setCurrentPage((prevPage) => prevPage + 1);
-      }
-    }
   };
 
   const loadUsers = async (page: number) => {
@@ -226,6 +222,16 @@ function App() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isLoading && currentPage < totalPages) {
+        setCurrentPage(prevPage => prevPage + 1);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isLoading, currentPage, totalPages]);
 
   useEffect(() => {
     loadUsers(currentPage);
@@ -252,6 +258,7 @@ function App() {
   return (
     <div className="App">
       <Header setIsOpenModal={setIsOpenModal} isCountUser={isCountUser} />
+      {isLoading && <Loader />}
       <div className='mainForm'>
         <Form
           setIsOpenModal={setIsOpenModal}
@@ -287,7 +294,6 @@ function App() {
         isUserList={isUserList}
         handleClickRemove={handleClickRemove}
         handleClickEdit={handleClickEdit}
-        handleScroll={handleScroll}
         activeId={isNewUser}
       />
       <CSSTransition
