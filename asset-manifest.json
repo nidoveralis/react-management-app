@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/customers/static/css/main.3694f020.css",
+    "main.js": "/customers/static/js/main.120cad28.js",
+    "static/media/Montserrat-Medium.woff2": "/customers/static/media/Montserrat-Medium.9c3c8454f19e7e08dc14.woff2",
+    "static/media/Montserrat-Regular.woff": "/customers/static/media/Montserrat-Regular.cddc799da28356873ebf.woff",
+    "static/media/Montserrat-Medium.woff": "/customers/static/media/Montserrat-Medium.4996f6d0a93c93f62390.woff",
+    "static/media/Montserrat-SemiBold.woff": "/customers/static/media/Montserrat-SemiBold.532be4f32b073399bd1d.woff",
+    "static/media/delete_white.svg": "/customers/static/media/delete_white.24d64b1b838419569d08.svg",
+    "static/media/succes.svg": "/customers/static/media/succes.be4a33b2bf4fbf378814.svg",
+    "static/media/delete.svg": "/customers/static/media/delete.70428e42a6ff4019bca2.svg",
+    "static/media/addUser.svg": "/customers/static/media/addUser.d21d51d1cd9971d5d52b.svg",
+    "static/media/date.svg": "/customers/static/media/date.574c36c339e958716a9f.svg",
+    "static/media/edit.svg": "/customers/static/media/edit.1cfe4b8488721274f03f.svg",
+    "static/media/search.svg": "/customers/static/media/search.fd4585493e0975b073e0.svg",
+    "index.html": "/customers/index.html",
+    "static/media/man.svg": "/customers/static/media/man.73beab237a82c0095636.svg",
+    "static/media/woman.svg": "/customers/static/media/woman.eb0fd2fd264f7623abbc.svg",
+    "static/media/close.svg": "/customers/static/media/close.2a95b4d38fd24ecc3244.svg",
+    "static/media/arrow.svg": "/customers/static/media/arrow.eba02dcffee0968ba02f.svg",
+    "static/media/arrow-sort.svg": "/customers/static/media/arrow-sort.97cf8d05791ab8b15fc7.svg",
+    "static/media/plus.svg": "/customers/static/media/plus.262735b265cd8929d8b9.svg",
+    "main.3694f020.css.map": "/customers/static/css/main.3694f020.css.map",
+    "main.120cad28.js.map": "/customers/static/js/main.120cad28.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3694f020.css",
+    "static/js/main.120cad28.js"
+  ]
+}
