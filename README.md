@@ -24,4 +24,4 @@
 2. Установите необходимые зависимости npm i
 3. Запустите проект npm run start
 
-Посмотреть можно [здесь]("https://nidoveralis.github.io/react-management-app")
+Посмотреть можно [здесь](https://nidoveralis.github.io/react-management-app)
